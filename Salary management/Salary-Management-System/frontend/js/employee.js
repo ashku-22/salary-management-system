@@ -1,46 +1,19 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("employeeForm");
+// employee.js
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("Employee Module Active 🧑‍💼");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const employeeId = form.employeeId.value;
-    const payload = {
-      name: sanitize(form.name.value),
-      email: sanitize(form.email.value),
-      department: sanitize(form.department.value),
-      designation: sanitize(form.designation.value),
-      phone: sanitize(form.phone.value),
-    };
-
-    if (!payload.name || !payload.email) {
-      alert("Name and Email are required.");
-      return;
-    }
-
-    const url = employeeId ? `/api/employees/${employeeId}` : `/api/employees`;
-    const method = employeeId ? "PUT" : "POST";
-
-    try {
-      const response = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        alert("Employee saved successfully!");
-        form.reset();
-      } else {
-        alert("Failed to save employee");
+  // Fetch user details from backend (future expansion)
+  fetch("get_user_info.php")
+    .then(res => res.json())
+    .then(data => {
+      const empDiv = document.getElementById("employeeDetails");
+      if (data && empDiv) {
+        empDiv.innerHTML = `
+          <h3>Employee Details</h3>
+          <p><b>Name:</b> ${data.username}</p>
+          <p><b>Joined On:</b> ${data.join_date || "N/A"}</p>
+        `;
       }
-    } catch (err) {
-      console.error(err);
-      alert("Network error");
-    }
-  });
+    })
+    .catch(err => console.error("Failed to load employee info:", err));
 });
-
-function sanitize(input) {
-  return input.replace(/[<>]/g, "").trim();
-}
