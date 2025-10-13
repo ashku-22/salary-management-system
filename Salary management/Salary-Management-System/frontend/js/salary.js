@@ -1,28 +1,31 @@
-document.addEventListener("DOMContentLoaded", () => {
-  loadSalaryData();
+// salary.js
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("Salary Module Loaded 💵");
+
+  const salaryForm = document.getElementById("salaryForm");
+
+  if (salaryForm) {
+    salaryForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(salaryForm);
+      fetch("save_salary.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then(res => {
+          if (!res.ok) throw new Error("Network error");
+          return res.text();
+        })
+        .then(() => {
+          alert("Salary saved successfully!");
+          salaryForm.reset();
+        })
+        .catch(err => {
+          console.error("Error saving salary:", err);
+          alert("Failed to save salary. Try again.");
+        });
+    });
+  }
 });
 
-async function loadSalaryData() {
-  const tableBody = document.querySelector("#salaryTable tbody");
-
-  try {
-    const res = await fetch("/api/salaries");
-    const data = await res.json();
-
-    tableBody.innerHTML = "";
-
-    data.forEach((item) => {
-      const row = `
-        <tr>
-          <td>${item.name}</td>
-          <td>${item.amount}</td>
-          <td>${item.date}</td>
-        </tr>
-      `;
-      tableBody.innerHTML += row;
-    });
-  } catch (err) {
-    console.error(err);
-    alert("Could not fetch salary data.");
-  }
-}
