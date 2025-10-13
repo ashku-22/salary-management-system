@@ -1,36 +1,40 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("loginForm");
+// login.js
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("Login Page Ready 🔐");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  const loginForm = document.getElementById("loginForm");
 
-    const username = form.username.value.trim();
-    const password = form.password.value;
+  if (loginForm) {
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent page reload
 
-    if (!username || !password) {
-      alert("Both fields are required.");
-      return;
-    }
+      const formData = new FormData(loginForm);
+      const username = formData.get("username");
 
-    try {
-      const res = await fetch("/api/login", {
+      fetch("login.php", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Login successful");
-        localStorage.setItem("token", data.token || "demoToken"); // Optional
-        window.location.href = "dashboard.html";
-      } else {
-        alert(data.message || "Login failed");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Network error.");
-    }
-  });
+        body: formData,
+      })
+        .then(res => {
+          if (res.redirected) {
+            // Login successful → redirect to dashboard
+            localStorage.setItem("username", username);
+            window.location.href = res.url;
+          } else {
+            return res.text();
+          }
+        })
+        .then(data => {
+          if (data && !data.includes("dashboard")) {
+            document.getElementById("loginError").innerHTML =
+              "<p style='color:red;'>" + data + "</p>";
+          }
+        })
+        .catch(err => {
+          console.error("Login failed:", err);
+          document.getElementById("loginError").innerHTML =
+            "<p style='color:red;'>Error connecting to server.</p>";
+        });
+    });
+  }
 });
