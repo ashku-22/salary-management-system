@@ -1,19 +1,24 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const dashboardContainer = document.getElementById("dashboard");
+// dashboard.js
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("Dashboard loaded ✅");
 
-  dashboardContainer.innerHTML = `
-    <h2>Welcome to Dashboard</h2>
-    <nav>
-      <ul>
-        <li><a href="employee.html">Manage Employees</a></li>
-        <li><a href="salary.html">View Salaries</a></li>
-        <li><a href="login.html" onclick="logout()">Logout</a></li>
-      </ul>
-    </nav>
-  `;
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to logout?")) {
+        window.location.href = "logout.php";
+      }
+    });
+  }
+
+  // Optionally, display welcome message dynamically
+  const userName = localStorage.getItem("username");
+  if (userName) {
+    const userEl = document.getElementById("welcomeUser");
+    if (userEl) userEl.textContent = `Welcome, ${userName}!`;
+  }
+
+  // Chart setup is handled in chart-setup.js
 });
 
-function logout() {
-  localStorage.removeItem("token");
-  alert("Logged out");
-}
+
