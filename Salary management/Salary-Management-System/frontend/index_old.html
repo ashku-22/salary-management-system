@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .geometric-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 2px, transparent 2px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body class="min-h-full bg-gray-50">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-800">Salary Management System</h2>
+                <div class="flex items-center space-x-4">
+                    <a href="/dashboard.html" class="text-blue-600 hover:text-blue-800 font-semibold">
+                        View Dashboard
+                    </a>
+                    <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="gradient-bg geometric-pattern relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full floating-animation"></div>
+        <div class="absolute top-32 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full floating-animation" style="animation-delay: -2s;"></div>
+        <div class="absolute bottom-20 left-1/4 w-12 h-12 bg-white bg-opacity-10 rounded-full floating-animation" style="animation-delay: -4s;"></div>
+        
+        <div class="container mx-auto px-6 py-16 relative z-10">
+            <div class="text-center">
+                <!-- Main Title -->
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight">
+                    Salary Management
+                    <span class="block text-blue-200">System</span>
+                </h1>
+                
+                <!-- Subtitle -->
+                <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                    Streamlined payroll processing and employee compensation management
+                </p>
+                
+                <!-- Tech Icons Row -->
+                <div class="flex justify-center space-x-8 mb-12">
+                    <div class="text-white pulse-animation">
+                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <div class="text-white pulse-animation" style="animation-delay: -0.5s;">
+                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                        </svg>
+                    </div>
+                    <div class="text-white pulse-animation" style="animation-delay: -1s;">
+                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 7H16c-.8 0-1.54.37-2.01 1l-2.54 3.51c-.48.66-.67 1.49-.49 2.31L12.5 18H9.5l1.54-5.17c.18-.82-.01-1.65-.49-2.31L8.01 8C7.54 7.37 6.8 7 6 7H3.46c-.81 0-1.54.5-1.85 1.26l-1.92 5.63c-.15.44-.12.92.08 1.34L4 22h2.5l-1.31-3.5L7 11h1l3 8v3h9z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto px-6 py-12">
+        <!-- Employee Details Form -->
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8 card-hover">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Employee Information</h2>
+                    <div class="w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
+                </div>
+                
+                <form class="space-y-6" onsubmit="handleSubmit(event)">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Name Field -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700">
+                                <svg class="w-4 h-4 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
+                                Employee Name
+                            </label>
+                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="Enter full name" required>
+                        </div>
+                        
+                        <!-- Employee ID Field -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700">
+                                <svg class="w-4 h-4 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                                </svg>
+                                Employee ID
+                            </label>
+                            <input type="text" id="empId" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="e.g., EMP001" required>
+                        </div>
+                        
+                        <!-- Salary Field -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700">
+                                <svg class="w-4 h-4 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                                </svg>
+                                Monthly Salary
+                            </label>
+                            <input type="number" id="salary" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="Enter salary amount" required>
+                        </div>
+                        
+                        <!-- Phone Field -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700">
+                                <svg class="w-4 h-4 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                                </svg>
+                                Phone Number
+                            </label>
+                            <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="Enter phone number" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Branch Field -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-gray-700">
+                            <svg class="w-4 h-4 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            Submitted to Branch
+                        </label>
+                        <select id="branch" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                            <option value="">Select Branch</option>
+                            <option value="headquarters">Headquarters</option>
+                            <option value="north">North Branch</option>
+                            <option value="south">South Branch</option>
+                            <option value="east">East Branch</option>
+                            <option value="west">West Branch</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="text-center pt-6">
+                        <button type="submit" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                            <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            Submit Employee Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Success Message (Hidden by default) -->
+        <div id="successMessage" class="max-w-4xl mx-auto mt-6 bg-green-50 border border-green-200 rounded-lg p-6 hidden">
+            <div class="flex items-center">
+                <svg class="w-6 h-6 text-green-600 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <div>
+                    <h3 class="text-lg font-semibold text-green-800">Employee Data Submitted Successfully!</h3>
+                    <p class="text-green-700" id="submissionDetails"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-300">© 2024 Salary Management System - College Project</p>
+            <p class="text-gray-400 text-sm mt-2">Designed for efficient payroll management and employee data processing</p>
+        </div>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const empId = document.getElementById('empId').value;
+            const salary = document.getElementById('salary').value;
+            const phone = document.getElementById('phone').value;
+            const branch = document.getElementById('branch').value;
+            
+            // Format salary with commas
+            const formattedSalary = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(salary);
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            const submissionDetails = document.getElementById('submissionDetails');
+            
+            submissionDetails.innerHTML = `
+                Employee <strong>${name}</strong> (ID: ${empId}) with salary ${formattedSalary} 
+                has been submitted to <strong>${branch.charAt(0).toUpperCase() + branch.slice(1)} Branch</strong>.
+            `;
+            
+            successMessage.classList.remove('hidden');
+            
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth' });
+            
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                document.querySelector('form').reset();
+                successMessage.classList.add('hidden');
+            }, 5000);
+        }
+        
+        // Add interactive hover effects to form fields
+        document.querySelectorAll('input, select').forEach(field => {
+            field.addEventListener('focus', function() {
+                this.parentElement.classList.add('transform', 'scale-105');
+            });
+            
+            field.addEventListener('blur', function() {
+                this.parentElement.classList.remove('transform', 'scale-105');
+            });
+        });
+        
+        // Logout function
+        function logout() {
+            fetch('/logout.php', {
+                method: 'POST',
+                credentials: 'include'
+            })
+            .then(() => {
+                window.location.href = '/';
+            })
+            .catch(err => {
+                console.error('Logout error:', err);
+                window.location.href = '/';
+            });
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98dc933f14133d1e',t:'MTc2MDMzNDc5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

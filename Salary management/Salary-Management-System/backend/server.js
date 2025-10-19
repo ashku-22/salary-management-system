@@ -3,9 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
-const bcrypt = require('bcrypt');
 require('dotenv').config();
-
 const db = require('./config/database');
 
 const app = express();
@@ -19,7 +17,7 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'salary-management-secret-key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }
@@ -30,28 +28,56 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Routes
 
-// Login endpoint
-app.post('/login.php', async (req, res) => {
+// Signup endpoint
+app.post('/api/signup', async (req, res) => {
+  const { username, password, role } = req.body;
+  
   try {
-    const { username, password } = req.body;
+    // Check if username already exists
+    const [existingUsers] = await db.query(
+      'SELECT * FROM users WHERE username = ?',
+      [username]
+    );
     
-    const [users] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
-    
-    if (users.length === 0) {
-      return res.status(401).send('Invalid username or password');
+    if (existingUsers.length > 0) {
+      return res.status(400).json({ error: 'Username already exists' });
     }
     
-    const user = users[0];
+    // Insert new user
+    const [result] = await db.query(
+      'INSERT INTO users (username, password, role, join_date) VALUES (?, ?, ?, CURDATE())',
+      [username, password, role || 'employee']
+    );
     
-    // For now, simple password comparison (in production, use bcrypt.compare)
-    if (password === user.password) {
+    res.status(201).json({ 
+      message: 'Account created successfully',
+      userId: result.insertId 
+    });
+  } catch (error) {
+    console.error('Signup error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Login endpoint
+app.post('/login.php', async (req, res) => {
+  const { username, password } = req.body;
+  
+  try {
+    const [users] = await db.query(
+      'SELECT * FROM users WHERE username = ? AND password = ?',
+      [username, password]
+    );
+    
+    if (users.length > 0) {
+      const user = users[0];
       req.session.user = {
         id: user.id,
         username: user.username,
         role: user.role,
         join_date: user.join_date
       };
-      res.redirect('/dashboard.html');
+      res.redirect('/index.html');
     } else {
       res.status(401).send('Invalid username or password');
     }
@@ -228,7 +254,27 @@ app.get('/api/dashboard/stats', async (req, res) => {
   }
 });
 
-// Serve index.html for root
+// Insert seed data endpoint (for testing)
+app.post('/api/insert-seed-data', async (req, res) => {
+  try {
+    // Insert sample employees
+    await db.query(`
+      INSERT IGNORE INTO employees (name, position, department, salary, phone, email, hire_date, status) VALUES
+      ('John Doe', 'Software Engineer', 'IT', 75000.00, '555-0101', 'john.doe@company.com', '2024-01-15', 'active'),
+      ('Jane Smith', 'HR Manager', 'HR', 65000.00, '555-0102', 'jane.smith@company.com', '2024-02-01', 'active'),
+      ('Michael Johnson', 'Financial Analyst', 'Finance', 70000.00, '555-0103', 'michael.j@company.com', '2024-02-15', 'active'),
+      ('Emily Davis', 'Marketing Specialist', 'Marketing', 60000.00, '555-0104', 'emily.d@company.com', '2024-03-01', 'active'),
+      ('Robert Brown', 'Operations Manager', 'Operations', 72000.00, '555-0105', 'robert.b@company.com', '2024-03-15', 'active')
+    `);
+    
+    res.json({ success: true, message: 'Sample employees added successfully!' });
+  } catch (error) {
+    console.error('Error inserting seed data:', error);
+    res.status(500).json({ error: 'Failed to insert seed data' });
+  }
+});
+
+// Serve combined page for root
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
